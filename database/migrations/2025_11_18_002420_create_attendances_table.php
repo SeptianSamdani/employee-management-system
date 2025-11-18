@@ -16,8 +16,12 @@ return new class extends Migration
             $table->id();
             $table->foreignId('employee_id')->constrained()->cascadeOnDelete();
             $table->date('date');
+            $table->time('scheduled_in')->default('08:00:00'); 
+            $table->time('scheduled_out')->default('17:00:00'); 
             $table->time('check_in')->nullable();
             $table->time('check_out')->nullable();
+            $table->boolean('is_late')->default(false);
+            $table->integer('late_minutes')->default(0);
             $table->enum('status', ['present', 'late', 'absent', 'leave', 'holiday'])->default('absent');
             $table->text('notes')->nullable();
             $table->decimal('latitude_in', 10, 8)->nullable();

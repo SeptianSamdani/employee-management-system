@@ -35,4 +35,8 @@ class Department extends Model
     {
         return $this->hasMany(Position::class);
     }
+
+    public function workSchedule() {
+        return $this->hasOne(WorkSchedule::class);
+    }
 }

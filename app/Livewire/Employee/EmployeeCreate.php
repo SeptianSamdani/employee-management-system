@@ -50,11 +50,10 @@ class EmployeeCreate extends Component
     ];
 
     protected $messages = [
-        'email.unique' => 'Email sudah digunakan.',
         'full_name.required' => 'Nama lengkap wajib diisi.',
-        'department_id.required' => 'Departemen wajib dipilih.',
-        'position_id.required' => 'Posisi wajib dipilih.',
-        'join_date.required' => 'Tanggal bergabung wajib diisi.',
+        'email.required' => 'Email wajib diisi.',
+        'email.email' => 'Format email tidak valid.',
+        'email.unique' => 'Email sudah terdaftar.',
     ];
 
     public function mount()

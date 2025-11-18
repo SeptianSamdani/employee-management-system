@@ -29,10 +29,10 @@
                             </a>
                             @endcan
                             @can('view attendances')
-                            {{-- <a href="{{ route('attendance.index') }}" 
+                            <a href="{{ route('attendance.index') }}" 
                                class="@if(request()->routeIs('attendance.*')) border-primary-500 text-secondary-900 @else border-transparent text-secondary-500 hover:border-secondary-300 hover:text-secondary-700 @endif inline-flex items-center px-3 pt-1 border-b-2 text-sm font-medium">
                                 Absensi
-                            </a> --}}
+                            </a>
                             @endcan
                             @can('view leaves')
                             {{-- <a href="{{ route('leaves.index') }}" 
@@ -54,6 +54,12 @@
                             <a href="{{ route('positions.index') }}" 
                             class="@if(request()->routeIs('positions.*')) border-primary-500 text-secondary-900 @else border-transparent text-secondary-500 hover:border-secondary-300 hover:text-secondary-700 @endif inline-flex items-center px-3 pt-1 border-b-2 text-sm font-medium">
                                 Posisi
+                            </a>
+                            @endrole
+                            @role('employee')
+                            <a href="{{ route('attendance.check-in') }}" 
+                            class="@if(request()->routeIs('attendance.check-in')) border-primary-500 text-secondary-900 @else border-transparent text-secondary-500 hover:border-secondary-300 hover:text-secondary-700 @endif inline-flex items-center px-3 pt-1 border-b-2 text-sm font-medium">
+                                Check In
                             </a>
                             @endrole
                         </div>

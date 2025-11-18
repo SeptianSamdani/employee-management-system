@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\DashboardController;
+use App\Livewire\Attendance\AttendanceCheckIn;
+use App\Livewire\Attendance\AttendanceList;
 
 // redirect root ke login
 Route::get('/', function () {
@@ -15,7 +17,7 @@ Route::middleware('guest')->group(function () {
     // GET menampilkan form login dan bernama 'login' sehingga auth middleware bisa redirect ke route('login')
     Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
     // POST menangani proses login (tidak harus bernama 'login')
-    Route::post('/login', [LoginController::class, 'login']);
+    Route::post('/login', [LoginController::class, 'login'])->middleware('throttle:5,1');
 });
 
 // Authenticated Routes
@@ -42,14 +44,14 @@ Route::middleware('auth')->group(function () {
     Route::prefix('positions')->name('positions.')->middleware('permission:manage departments')->group(function () {
         Route::get('/', \App\Livewire\Position\PositionManage::class)->name('index');
     });
-    
+
     // Attendance Routes
-    // Route::prefix('attendance')->name('attendance.')->group(function () {
-    //     Route::get('/', \App\Livewire\Attendance\AttendanceList::class)->name('index')
-    //         ->middleware('permission:view attendances');
-    //     Route::get('/check-in', \App\Livewire\Attendance\AttendanceCheckIn::class)->name('check-in')
-    //         ->middleware('permission:check in');
-    // });
+    Route::prefix('attendance')->name('attendance.')->group(function () {
+        Route::get('/', AttendanceList::class)->name('index')
+            ->middleware('permission:view attendances');
+        Route::get('/check-in', AttendanceCheckIn::class)->name('check-in')
+            ->middleware('permission:check in');
+    });
     
     // Leave Routes
     // Route::prefix('leaves')->name('leaves.')->group(function () {

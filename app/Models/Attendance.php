@@ -1,6 +1,5 @@
 <?php
 
-// app/Models/Attendance.php
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -13,7 +12,11 @@ class Attendance extends Model
         'date',
         'check_in',
         'check_out',
+        'scheduled_in',      
+        'scheduled_out',     
         'status',
+        'is_late',           
+        'late_minutes',      
         'notes',
         'latitude_in',
         'longitude_in',
@@ -23,6 +26,7 @@ class Attendance extends Model
 
     protected $casts = [
         'date' => 'date',
+        'is_late' => 'boolean',  
         'latitude_in' => 'decimal:8',
         'longitude_in' => 'decimal:8',
         'latitude_out' => 'decimal:8',

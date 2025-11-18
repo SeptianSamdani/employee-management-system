@@ -38,17 +38,9 @@ class EmployeeList extends Component
     public function render()
     {
         $employees = Employee::query()
-            ->with(['department', 'position'])
-            ->when($this->search, function ($query) {
-                $query->where(function ($q) {
-                    $q->where('full_name', 'like', '%' . $this->search . '%')
-                      ->orWhere('employee_number', 'like', '%' . $this->search . '%')
-                      ->orWhere('email', 'like', '%' . $this->search . '%');
-                });
-            })
-            ->when($this->status, function ($query) {
-                $query->where('status', $this->status);
-            })
+            ->with(['department:id,name', 'position:id,name']) // Eager loading
+            ->select('id', 'employee_number', 'full_name', 'email', 'department_id', 'position_id', 'status')
+            ->when($this->search, fn($q) => $q->where(...))
             ->latest()
             ->paginate($this->perPage);
 
