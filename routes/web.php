@@ -51,6 +51,13 @@ Route::middleware('auth')->group(function () {
             ->middleware('permission:view attendances');
         Route::get('/check-in', AttendanceCheckIn::class)->name('check-in')
             ->middleware('permission:check in');
+        Route::get('/history', \App\Livewire\Attendance\AttendanceHistory::class)->name('history')
+            ->middleware('auth');
+    });
+
+    // Work Schedule Routes (Admin/HR only)
+    Route::prefix('work-schedules')->name('work-schedules.')->middleware('role:admin|hr')->group(function () {
+        Route::get('/', \App\Livewire\WorkSchedule\WorkScheduleManage::class)->name('index');
     });
     
     // Leave Routes

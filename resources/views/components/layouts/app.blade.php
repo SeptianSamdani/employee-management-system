@@ -30,7 +30,7 @@
                             @endcan
                             @can('view attendances')
                             <a href="{{ route('attendance.index') }}" 
-                               class="@if(request()->routeIs('attendance.*')) border-primary-500 text-secondary-900 @else border-transparent text-secondary-500 hover:border-secondary-300 hover:text-secondary-700 @endif inline-flex items-center px-3 pt-1 border-b-2 text-sm font-medium">
+                            class="@if(request()->routeIs('attendance.index')) border-primary-500 text-secondary-900 @else border-transparent text-secondary-500 hover:border-secondary-300 hover:text-secondary-700 @endif inline-flex items-center px-3 pt-1 border-b-2 text-sm font-medium">
                                 Absensi
                             </a>
                             @endcan
@@ -55,13 +55,22 @@
                             class="@if(request()->routeIs('positions.*')) border-primary-500 text-secondary-900 @else border-transparent text-secondary-500 hover:border-secondary-300 hover:text-secondary-700 @endif inline-flex items-center px-3 pt-1 border-b-2 text-sm font-medium">
                                 Posisi
                             </a>
+                            <a href="{{ route('work-schedules.index') }}" 
+                            class="@if(request()->routeIs('work-schedules.*')) border-primary-500 text-secondary-900 @else border-transparent text-secondary-500 hover:border-secondary-300 hover:text-secondary-700 @endif inline-flex items-center px-3 pt-1 border-b-2 text-sm font-medium">
+                                Jadwal Kerja
+                            </a>
                             @endrole
                             @role('employee')
                             <a href="{{ route('attendance.check-in') }}" 
                             class="@if(request()->routeIs('attendance.check-in')) border-primary-500 text-secondary-900 @else border-transparent text-secondary-500 hover:border-secondary-300 hover:text-secondary-700 @endif inline-flex items-center px-3 pt-1 border-b-2 text-sm font-medium">
                                 Check In
                             </a>
+                            <a href="{{ route('attendance.history') }}" 
+                            class="@if(request()->routeIs('attendance.history')) border-primary-500 text-secondary-900 @else border-transparent text-secondary-500 hover:border-secondary-300 hover:text-secondary-700 @endif inline-flex items-center px-3 pt-1 border-b-2 text-sm font-medium">
+                                Riwayat Saya
+                            </a>
                             @endrole
+
                         </div>
                     </div>
                     <div class="flex items-center space-x-4">

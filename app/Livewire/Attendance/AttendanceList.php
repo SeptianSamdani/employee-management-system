@@ -3,14 +3,21 @@
 namespace App\Livewire\Attendance;
 
 use App\Models\Attendance;
+use App\Models\Department;
 use Livewire\Component;
+use Livewire\WithPagination;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\AttendanceExport;
 
 class AttendanceList extends Component
 {
+    use WithPagination;
+
     public $search = '';
     public $dateFrom;
     public $dateTo;
     public $status = '';
+    public $department_id = '';
     
     public function mount()
     {
@@ -18,13 +25,24 @@ class AttendanceList extends Component
         $this->dateTo = now()->format('Y-m-d');
     }
     
+    public function updatingSearch()
+    {
+        $this->resetPage();
+    }
+    
     public function render()
     {
         $attendances = Attendance::query()
-            ->with(['employee:id,employee_number,full_name,department_id'])
+            ->with(['employee:id,employee_number,full_name,department_id', 'employee.department:id,name'])
             ->when($this->search, fn($q) => 
                 $q->whereHas('employee', fn($q2) => 
                     $q2->where('full_name', 'like', "%{$this->search}%")
+                        ->orWhere('employee_number', 'like', "%{$this->search}%")
+                )
+            )
+            ->when($this->department_id, fn($q) =>
+                $q->whereHas('employee', fn($q2) =>
+                    $q2->where('department_id', $this->department_id)
                 )
             )
             ->when($this->dateFrom, fn($q) => $q->where('date', '>=', $this->dateFrom))
@@ -33,11 +51,25 @@ class AttendanceList extends Component
             ->latest('date')
             ->paginate(20);
         
-        return view('livewire.attendance.attendance-list', compact('attendances'));
+        $departments = Department::where('is_active', true)->get();
+        
+        return view('livewire.attendance.attendance-list', [
+            'attendances' => $attendances,
+            'departments' => $departments
+        ]);
     }
     
     public function export()
     {
-        // Will implement in Step 5
+        return Excel::download(
+            new AttendanceExport(
+                $this->search,
+                $this->dateFrom,
+                $this->dateTo,
+                $this->status,
+                $this->department_id
+            ),
+            'attendance-' . now()->format('Y-m-d') . '.xlsx'
+        );
     }
 }
