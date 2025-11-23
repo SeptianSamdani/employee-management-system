@@ -3,9 +3,6 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
-use App\Http\Controllers\DashboardController;
-use App\Livewire\Attendance\AttendanceCheckIn;
-use App\Livewire\Attendance\AttendanceList;
 
 // redirect root ke login
 Route::get('/', function () {
@@ -14,16 +11,16 @@ Route::get('/', function () {
 
 // Guest Routes
 Route::middleware('guest')->group(function () {
-    // GET menampilkan form login dan bernama 'login' sehingga auth middleware bisa redirect ke route('login')
     Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
-    // POST menangani proses login (tidak harus bernama 'login')
     Route::post('/login', [LoginController::class, 'login'])->middleware('throttle:5,1');
 });
 
 // Authenticated Routes
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    
+    // Dashboard (Livewire Component)
+    Route::get('/dashboard', \App\Livewire\Dashboard\DashboardIndex::class)->name('dashboard');
     
     // Employee Routes
     Route::prefix('employees')->name('employees.')->group(function () {
@@ -47,9 +44,9 @@ Route::middleware('auth')->group(function () {
 
     // Attendance Routes
     Route::prefix('attendance')->name('attendance.')->group(function () {
-        Route::get('/', AttendanceList::class)->name('index')
+        Route::get('/', \App\Livewire\Attendance\AttendanceList::class)->name('index')
             ->middleware('permission:view attendances');
-        Route::get('/check-in', AttendanceCheckIn::class)->name('check-in')
+        Route::get('/check-in', \App\Livewire\Attendance\AttendanceCheckIn::class)->name('check-in')
             ->middleware('permission:check in');
         Route::get('/history', \App\Livewire\Attendance\AttendanceHistory::class)->name('history')
             ->middleware('auth');
@@ -59,20 +56,4 @@ Route::middleware('auth')->group(function () {
     Route::prefix('work-schedules')->name('work-schedules.')->middleware('role:admin|hr')->group(function () {
         Route::get('/', \App\Livewire\WorkSchedule\WorkScheduleManage::class)->name('index');
     });
-    
-    // Leave Routes
-    // Route::prefix('leaves')->name('leaves.')->group(function () {
-    //     Route::get('/', \App\Livewire\Leave\LeaveList::class)->name('index')
-    //         ->middleware('permission:view leaves');
-    //     Route::get('/request', \App\Livewire\Leave\LeaveRequest::class)->name('request')
-    //         ->middleware('permission:create leaves');
-    //     Route::get('/approval', \App\Livewire\Leave\LeaveApproval::class)->name('approval')
-    //         ->middleware('permission:approve leaves');
-    // });
-    
-    // Payroll Routes (HR/Admin only)
-    // Route::prefix('payroll')->name('payroll.')->middleware('role:admin|hr')->group(function () {
-    //     Route::get('/', \App\Livewire\Payroll\PayrollList::class)->name('index');
-    //     Route::get('/generate', \App\Livewire\Payroll\PayrollGenerate::class)->name('generate');
-    // });
 });

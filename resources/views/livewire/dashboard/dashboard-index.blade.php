@@ -1,6 +1,4 @@
-<x-app-layout>
-    <x-slot name="title">Dashboard</x-slot>
-
+<div>
     <div class="mb-6">
         <h1 class="text-2xl font-semibold text-secondary-900">Dashboard</h1>
         <p class="text-sm text-secondary-600 mt-1">Ringkasan data karyawan dan kehadiran</p>
@@ -83,4 +81,4 @@
             </div>
         </div>
     </div>
-</x-app-layout>
+</div>

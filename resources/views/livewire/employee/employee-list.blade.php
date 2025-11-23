@@ -6,7 +6,7 @@
             <p class="text-sm text-secondary-600 mt-1">Kelola data karyawan perusahaan</p>
         </div>
         @can('create employees')
-        <a href="{{ route('employees.create') }}" class="btn-primary">
+        <a href="{{ route('employees.create') }}" wire:navigate class="btn-primary">
             <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
             </svg>
@@ -79,7 +79,7 @@
                             <td>
                                 <div class="flex items-center space-x-2">
                                     @can('edit employees')
-                                    <a href="{{ route('employees.edit', $employee) }}" class="text-primary-600 hover:text-primary-900">
+                                    <a href="{{ route('employees.edit', $employee) }}" wire:navigate class="text-primary-600 hover:text-primary-900">
                                         Edit
                                     </a>
                                     @endcan

@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Livewire\Dashboard;
 
 use App\Models\Employee;
 use App\Models\Attendance;
 use App\Models\Leave;
-use Illuminate\Support\Facades\DB;
+use Livewire\Component;
 
-class DashboardController extends Controller
+class DashboardIndex extends Component
 {
-    public function index()
+    public function render()
     {
         $stats = [
             'total_employees' => Employee::where('status', 'active')->count(),
@@ -23,6 +23,6 @@ class DashboardController extends Controller
                 ->count(),
         ];
 
-        return view('dashboard', compact('stats'));
+        return view('livewire.dashboard.dashboard-index', compact('stats'));
     }
 }

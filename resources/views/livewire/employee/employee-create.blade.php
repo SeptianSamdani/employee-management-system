@@ -6,7 +6,7 @@
                 <h1 class="text-2xl font-semibold text-secondary-900">Tambah Karyawan</h1>
                 <p class="text-sm text-secondary-600 mt-1">Isi form untuk menambah karyawan baru</p>
             </div>
-            <a href="{{ route('employees.index') }}" class="btn-outline">
+            <a href="{{ route('employees.index') }}" wire:navigate class="btn-outline">
                 Kembali
             </a>
         </div>
@@ -170,7 +170,7 @@
                     <button type="submit" class="btn-primary w-full">
                         Simpan Karyawan
                     </button>
-                    <a href="{{ route('employees.index') }}" class="btn-outline w-full text-center">
+                    <a href="{{ route('employees.index') }}" wire:navigate class="btn-outline w-full text-center">
                         Batal
                     </a>
                 </div>
