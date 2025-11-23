@@ -64,6 +64,11 @@ class Employee extends Model
         return $this->hasMany(Payroll::class);
     }
 
+    public function leaveBalances(): HasMany
+    {
+        return $this->hasMany(EmployeeLeaveBalance::class);
+    }
+
     // Helper method
     public function getActiveStatusAttribute(): string
     {

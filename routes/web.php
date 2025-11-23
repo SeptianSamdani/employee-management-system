@@ -38,7 +38,7 @@ Route::middleware('auth')->group(function () {
     });
 
     // Position Routes
-    Route::prefix('positions')->name('positions.')->middleware('permission:manage departments')->group(function () {
+    Route::prefix('positions')->name('positions.')->middleware('permission:manage positions')->group(function () { // UBAH PERMISSION
         Route::get('/', \App\Livewire\Position\PositionManage::class)->name('index');
     });
 
@@ -52,8 +52,23 @@ Route::middleware('auth')->group(function () {
             ->middleware('auth');
     });
 
-    // Work Schedule Routes (Admin/HR only)
-    Route::prefix('work-schedules')->name('work-schedules.')->middleware('role:admin|hr')->group(function () {
+    // Work Schedule Routes
+    Route::prefix('work-schedules')->name('work-schedules.')->middleware('permission:manage work schedules')->group(function () { 
         Route::get('/', \App\Livewire\WorkSchedule\WorkScheduleManage::class)->name('index');
+    });
+
+    // Leave Routes
+    Route::prefix('leaves')->name('leaves.')->group(function () {
+        Route::get('/', \App\Livewire\Leave\LeaveList::class)->name('index')
+            ->middleware('permission:view leaves');
+        Route::get('/request', \App\Livewire\Leave\LeaveRequest::class)->name('request')
+            ->middleware('permission:create leaves');
+        Route::get('/approval', \App\Livewire\Leave\LeaveApproval::class)->name('approval')
+            ->middleware('permission:approve leaves');
+    });
+
+    // Leave Type Management
+    Route::prefix('leave-types')->name('leave-types.')->middleware('permission:manage leave types')->group(function () {
+        Route::get('/', \App\Livewire\LeaveType\LeaveTypeManage::class)->name('index');
     });
 });
