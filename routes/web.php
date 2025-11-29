@@ -71,4 +71,10 @@ Route::middleware('auth')->group(function () {
     Route::prefix('leave-types')->name('leave-types.')->middleware('permission:manage leave types')->group(function () {
         Route::get('/', \App\Livewire\LeaveType\LeaveTypeManage::class)->name('index');
     });
+
+    // TAMBAHKAN PROFILE ROUTES INI
+    Route::prefix('profile')->name('profile.')->group(function () {
+        Route::get('/', \App\Livewire\Profile\ProfileView::class)->name('index');
+        Route::get('/edit', \App\Livewire\Profile\ProfileEdit::class)->name('edit');
+    });
 });

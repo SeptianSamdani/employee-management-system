@@ -69,9 +69,32 @@ class Employee extends Model
         return $this->hasMany(EmployeeLeaveBalance::class);
     }
 
+    // TAMBAHKAN RELATIONSHIP INI
+    public function documents(): HasMany
+    {
+        return $this->hasMany(EmployeeDocument::class);
+    }
+
     // Helper method
     public function getActiveStatusAttribute(): string
     {
         return $this->status === 'active' ? 'Aktif' : 'Tidak Aktif';
+    }
+    
+    public function getDocumentCompletenessAttribute(): array
+    {
+        $requiredDocs = ['ktp', 'npwp', 'bpjs_kesehatan', 'bpjs_ketenagakerjaan'];
+        $uploaded = $this->documents()->pluck('type')->toArray();
+        
+        $missing = array_diff($requiredDocs, $uploaded);
+        $total = count($requiredDocs);
+        $completed = $total - count($missing);
+        
+        return [
+            'percentage' => ($completed / $total) * 100,
+            'completed' => $completed,
+            'total' => $total,
+            'missing' => $missing,
+        ];
     }
 }
